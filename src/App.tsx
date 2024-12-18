@@ -24,8 +24,13 @@ const buttonsFromServer = [
   'Reset',
 ];
 
-const SORT_FIELD_NAME = 'name';
-const SORT_FIELD_LENGTH = 'length';
+enum SortField {
+  Name = 'name',
+  Length = 'length',
+}
+
+// const SORT_FIELD_NAME = 'name';
+// const SORT_FIELD_LENGTH = 'length';
 
 interface ButtonProps {
   button: string;
@@ -56,11 +61,11 @@ function getPreparedGoods(
 
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
-      if (sortField === SORT_FIELD_NAME) {
+      if (sortField === SortField.Name) {
         return good1.localeCompare(good2);
       }
 
-      if (sortField === SORT_FIELD_LENGTH) {
+      if (sortField === SortField.Length) {
         return good1.length - good2.length;
       }
 
@@ -103,11 +108,11 @@ const Button: React.FC<ButtonProps> = ({
 
         switch (value) {
           case 'Sort alphabetically':
-            setSortField(SORT_FIELD_NAME);
+            setSortField(SortField.Name);
 
             break;
           case 'Sort by length':
-            setSortField(SORT_FIELD_LENGTH);
+            setSortField(SortField.Length);
             break;
           case 'Reverse':
             if (reverse) {
@@ -147,9 +152,9 @@ export const App: React.FC = () => {
   return (
     <div className="section content">
       <div className="buttons">
-        {visibleButtons.map((button, index) => (
+        {visibleButtons.map(button => (
           <Button
-            key={index}
+            key={button}
             button={button}
             sortField={sortField}
             reverse={reverse}
